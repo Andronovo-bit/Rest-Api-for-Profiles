@@ -2,7 +2,7 @@ from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status, viewsets
-from . import serializers
+from . import serializers, models
 
 # Create your views here.
 
@@ -47,6 +47,7 @@ class HelloApiView(APIView):
     
 class HelloViewSet(viewsets.ViewSet):
 
+
     serializer_class = serializers.HelloSerializer
 
     def list(self,request):
@@ -85,3 +86,10 @@ class HelloViewSet(viewsets.ViewSet):
     def destroy(self,request,pk=None):
 
         return Response({'http_method': 'DELETE'})
+
+
+class UserProfileViewSet(viewsets.ModelViewSet):
+
+    serializer_class = serializers.UserProfileSerializer
+
+    queryset = models.UserProfile.objects.all()

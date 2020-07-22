@@ -4,6 +4,8 @@ from rest_framework.response import Response
 from rest_framework import status, viewsets, filters
 from rest_framework.authentication import TokenAuthentication
 from . import serializers, models, permissions
+from rest_framework.authtoken.serializers import AuthTokenSerializer
+from rest_framework.authtoken.views import ObtainAuthToken
 
 # Create your views here.
 
@@ -90,7 +92,7 @@ class HelloViewSet(viewsets.ViewSet):
 
 
 class UserProfileViewSet(viewsets.ModelViewSet):
-
+    
     serializer_class = serializers.UserProfileSerializer
 
     queryset = models.UserProfile.objects.all()
@@ -102,3 +104,12 @@ class UserProfileViewSet(viewsets.ModelViewSet):
     filter_backends = (filters.SearchFilter,)
 
     search_fields = ('name','email',)
+
+
+class LoginViewSet(viewsets.ViewSet):
+    
+    serializer_class = AuthTokenSerializer
+
+    def create(self,request):
+
+        return ObtainAuthToken().post(request)
